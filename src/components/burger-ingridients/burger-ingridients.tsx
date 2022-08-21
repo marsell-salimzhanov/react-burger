@@ -1,10 +1,22 @@
 import React, { useState } from 'react';
 import burgerIngridientsStyles from './burger-ingridients.module.css';
-import { Tab, CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components'
-import { data } from '../../utils/data.js';
+import { Tab, CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
+import { ingredientType } from '../../utils/types';
 
-function BurgerIngridients() {
+
+interface BurgerIngridientsProps {
+  data: Array<ingredientType>;
+  handleIngredientDetailsClick: (ingridient: ingredientType) => void;
+}
+
+function BurgerIngriiednts({ data, handleIngredientDetailsClick }: BurgerIngridientsProps) {
+
   const [current, setCurrent] = useState('one');
+
+  const onIngredientClick = (item: ingredientType) => (event: Object) => {
+    handleIngredientDetailsClick(item)
+  }
+
 
   return (
     <>
@@ -28,7 +40,7 @@ function BurgerIngridients() {
           {
             data.filter(item => item.type === 'bun')
               .map((i) => (
-                <div key={i._id} className={burgerIngridientsStyles.grid_element}>
+                <div onClick={onIngredientClick(i)} key={i._id} className={burgerIngridientsStyles.grid_element}>
                   <img src={i.image} />
                   <Counter count={1} size="default" />
                   <div className={burgerIngridientsStyles.item_price}>
@@ -46,7 +58,7 @@ function BurgerIngridients() {
           {
             data.filter(item => item.type === 'sauce')
               .map((i) => (
-                <div key={i._id} className={burgerIngridientsStyles.grid_element}>
+                <div onClick={onIngredientClick(i)} key={i._id} className={burgerIngridientsStyles.grid_element}>
                   <img src={i.image} />
                   <Counter count={1} size="default" />
                   <div className={burgerIngridientsStyles.item_price}>
@@ -64,7 +76,7 @@ function BurgerIngridients() {
           {
             data.filter(item => item.type === 'main')
               .map((i) => (
-                <div key={i._id} className={burgerIngridientsStyles.grid_element}>
+                <div onClick={onIngredientClick(i)} key={i._id} className={burgerIngridientsStyles.grid_element}>
                   <img src={i.image} />
                   <Counter count={1} size="default" />
                   <div className={burgerIngridientsStyles.item_price}>
@@ -83,4 +95,4 @@ function BurgerIngridients() {
   );
 }
 
-export default BurgerIngridients;
+export default BurgerIngriiednts;
