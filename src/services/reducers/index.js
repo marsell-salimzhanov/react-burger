@@ -1,14 +1,25 @@
 import { combineReducers } from 'redux';
 import {
-  ingridientsReducer,
-  constuctorReducer,
-  currentIngridientDetailsReducer,
+  currentUserReducer
+} from './current-user';
+import {
   orderReducer
-} from './reducers';
+} from './order';
+
+import {
+  ingridientsReducer
+} from './ingridients';
+import {
+  currentIngridientDetailsReducer
+} from './current-ingridient';
+import {
+  constructorReducer
+} from './constructor';
 
 export const rootReducer = combineReducers({
   ingridients: ingridientsReducer,
-  constuctor: constuctorReducer,
+  constructorItem: constructorReducer,
   currentIngridientDetails: currentIngridientDetailsReducer,
   order: orderReducer,
+  currentUser: currentUserReducer,
 });
