@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, FC } from 'react';
 import { BrowserRouter as Router, Switch, Route, useHistory } from 'react-router-dom';
 import { useLocation } from "react-router";
 import appStyles from './app.module.css';
@@ -14,30 +14,29 @@ import IngredientDetails from '../ingredient-details/ingredient-details';
 import {
   HIDE_INGRIDIENT_DETAILS,
 } from '../../services/actions/current-ingridient';
-import { useSelector, useDispatch, shallowEqual } from 'react-redux';
-import Modal from '../modal/modal.jsx';
-
+import { useSelector, useDispatch } from 'react-redux';
+import Modal from '../modal/modal';
 import {
   getIngridients
 } from '../../services/actions/ingridients';
 
-function App() {
 
-
+const App: FC = () => {
   const ModalSwitch = () => {
-    const location = useLocation();
+
+    const location = useLocation<any>();
     const history = useHistory();
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<any>();
     const background = location.state && location.state.background;
 
-    const { currentIngridientDetails } = useSelector(state => state.currentIngridientDetails);
+    const { currentIngridientDetails } = useSelector((state: any) => state.currentIngridientDetails);
     const closePopupIngridientDetails = useCallback(() => {
       dispatch({
         type: HIDE_INGRIDIENT_DETAILS
       });
       if (location?.state?.id) history.goBack()
       else history.push('/')
-    }, [dispatch], shallowEqual);
+    }, [dispatch]);
 
     useEffect(() => {
       dispatch(getIngridients())
