@@ -1,10 +1,11 @@
 import { useMemo, useEffect, FC } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+
+import { useSelector, useDispatch } from '../../services/hooks';
 import IngredientDetailsStyles from './ingredient-details.module.css';
 import { useLocation } from "react-router";
 import {
   SHOW_INGRIDIENT_DETAILS,
-} from '../../services/actions/current-ingridient';
+} from '../../services/constants/current-ingridient';
 import { IIngredient, ILocation } from '../../utils/types';
 
 
@@ -12,7 +13,7 @@ const IngredientDetails: FC = () => {
   const dispatch = useDispatch();
   const currentIngridientDetailsStore = useSelector((state: any) => state.currentIngridientDetails.currentIngridientDetails);
   const location = useLocation<ILocation>();
-  const { ingridients } = useSelector((state: any) => state.ingridients);
+  const { ingridients } = useSelector((state) => state.ingridients);
 
 
   const currentIngridientDetails = useMemo(

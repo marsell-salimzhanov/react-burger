@@ -20,9 +20,17 @@ import {
   EXIT_REQUEST,
   EXIT_SUCCES,
   EXIT_FAILED
-} from '../actions/current-user';
+} from '../constants/current-user';
+import {
+  ICurrentUser
+} from '../../utils/types';
+import { TCurrentUserActions } from '../actions/current-user';
 
-const initialState = {
+type TCurrentUserState = {
+  currentUser: ICurrentUser;
+}
+
+const initialState: TCurrentUserState = {
   currentUser: {
     email: '',
     name: '',
@@ -42,7 +50,7 @@ const initialState = {
   }
 }
 
-export const currentUserReducer = (state = initialState, action) => {
+export const currentUserReducer = (state = initialState, action: TCurrentUserActions) => {
   switch (action.type) {
     case SENT_RESET_EMAIL: {
       return {

@@ -1,18 +1,19 @@
 import { useState, useRef, useCallback, useEffect, FC } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+
+import { useSelector, useDispatch } from '../services/hooks';
 import pagesStyles from './pages.module.css';
-import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import {
   sentResetPassword,
   getUser
 } from '../services/actions/current-user';
 import './pages.css';
-
+import { Button } from '../../src/components/ui-yandex/ui-yandex';
 
 
 const ResetPassword: FC = () => {
-  const dispatch = useDispatch<any>();
+  const dispatch = useDispatch();
 
   const [passwordResetValue, setPasswordResetValue] = useState<string>('');
   const inputEmailResetRef = useRef<HTMLInputElement>(null);
@@ -20,7 +21,7 @@ const ResetPassword: FC = () => {
   const [codeResetValue, setCodeResetValue] = useState<string>('');
   const inputCodeResetRef = useRef<HTMLInputElement>(null);
 
-  const { currentUser } = useSelector((state: any) => state.currentUser)
+  const { currentUser } = useSelector((state) => state.currentUser)
 
   const onSubmitReset = useCallback((e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -77,7 +78,7 @@ const ResetPassword: FC = () => {
         <Button
           type="primary"
           size="medium"
-          htmlType='button'
+          htmlType='submit'
         >
           {!currentUser.resetPasswordRequest ? 'Сохранить' : '...Сохраняем'}
 

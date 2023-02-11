@@ -1,19 +1,25 @@
 import { useState, useCallback, useEffect, FC } from 'react';
-import { NavLink } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { NavLink, useLocation } from 'react-router-dom';
+
+import { useSelector, useDispatch } from '../services/hooks';
 import {
   getUser,
   updateUser,
   exit
 } from '../services/actions/current-user';
 import pagesStyles from './pages.module.css';
-import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import './pages.css';
+import { ILocation } from '../utils/types';
+import MyOrders from '../components/my-orders/my-orders';
+import { Button } from '../../src/components/ui-yandex/ui-yandex';
 
 const Pofile: FC = () => {
-  const dispatch = useDispatch<any>();
+  const dispatch = useDispatch();
 
-  const currentUser = useSelector((state: any) => state.currentUser.currentUser);
+  const location = useLocation<ILocation>();
+
+  const currentUser = useSelector((state) => state.currentUser.currentUser);
 
   const [emailProfileValue, setEmailProfileValue] = useState<string>('');
 
@@ -26,7 +32,7 @@ const Pofile: FC = () => {
     dispatch(getUser());
 
   }, []);
-
+  console.log(location);
   useEffect(() => {
     setNameProfileValue(currentUser.name);
     setEmailProfileValue(currentUser.email);
@@ -82,60 +88,63 @@ const Pofile: FC = () => {
             </button>
           </li>
         </ul>
-        <div className={pagesStyles.form}>
-          <Input
-            type={'text'}
-            placeholder={'Имя'}
-            onChange={e => setNameProfileValue(e.target.value)}
-            value={nameProfileValue}
-            name={'name'}
-            error={false}
-            errorText={'Ошибка'}
-            icon="EditIcon"
-          />
-          <Input
-            type={'text'}
-            placeholder={'E-mail'}
-            onChange={e => setEmailProfileValue(e.target.value)}
-            value={emailProfileValue}
-            name={'email'}
-            error={false}
-            errorText={'Ошибка'}
-            icon="EditIcon"
-          />
-          <PasswordInput
-            onChange={e => setPasswordProfileValue(e.target.value)}
-            value={passwordProfileValue}
-            name={'password'}
-          />
-          {(emailProfileValue !== currentUser.email || nameProfileValue !== currentUser.name || passwordProfileValue) &&
-            (<div className={`mb-20 ${pagesStyles.button_container}`}>
-              <div className='mr-4'>
+        {location.pathname === '/profile' &&
+          (<div className={pagesStyles.form}>
+            <Input
+              type={'text'}
+              placeholder={'Имя'}
+              onChange={e => setNameProfileValue(e.target.value)}
+              value={nameProfileValue}
+              name={'name'}
+              error={false}
+              errorText={'Ошибка'}
+              icon="EditIcon"
+            />
+            <Input
+              type={'text'}
+              placeholder={'E-mail'}
+              onChange={e => setEmailProfileValue(e.target.value)}
+              value={emailProfileValue}
+              name={'email'}
+              error={false}
+              errorText={'Ошибка'}
+              icon="EditIcon"
+            />
+            <PasswordInput
+              onChange={e => setPasswordProfileValue(e.target.value)}
+              value={passwordProfileValue}
+              name={'password'}
+            />
+            {(emailProfileValue !== currentUser.email || nameProfileValue !== currentUser.name || passwordProfileValue) &&
+              (<div className={`mb-20 ${pagesStyles.button_container}`}>
+                <div className='mr-4'>
+                  <Button
+                    onClick={onUndoCallback}
+                    type="primary"
+                    size="medium"
+                    htmlType='submit'
+                  >
+                    Отменить
+                  </Button>
+                </div>
+
                 <Button
-                  onClick={onUndoCallback}
+                  onClick={onSaveCallback}
                   type="primary"
                   size="medium"
                   htmlType='button'
                 >
-                  Отменить
+                  Сохранить
                 </Button>
-              </div>
-
-              <Button
-                onClick={onSaveCallback}
-                type="primary"
-                size="medium"
-                htmlType='button'
-              >
-                Сохранить
-              </Button>
-            </div>)}
-        </div>
+              </div>)}
+          </div>)}
+        {location.pathname === '/profile/orders' && <MyOrders />}
 
       </div>
-      <p className={`text text_type_main-default text_color_inactive ${pagesStyles.text_footer_profile}`}>
-        В этом разделе вы можете изменить свои персональные данные
-      </p>
+      {location.pathname === '/profile' &&
+        (<p className={`text text_type_main-default text_color_inactive ${pagesStyles.text_footer_profile}`}>
+          В этом разделе вы можете изменить свои персональные данные
+        </p>)}
     </div>
   );
 }

@@ -1,12 +1,13 @@
 import React, { useState, useRef, useEffect, useCallback, FC } from 'react';
 
 import burgerIngridientsStyles from './burger-ingridients.module.css';
-import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useSelector, useDispatch, shallowEqual } from 'react-redux';
+import { Tab } from '../ui-yandex/ui-yandex';
+import { shallowEqual } from 'react-redux';
+import { useSelector, useDispatch } from '../../services/hooks';
 import BurgerIngridient from './burger-ingridient'
 import {
   SHOW_INGRIDIENT_DETAILS
-} from '../../services/actions/current-ingridient';
+} from '../../services/constants/current-ingridient';
 import { IIngredient } from '../../utils/types';
 
 const BurgerIngriiednts: FC = () => {
@@ -63,8 +64,8 @@ const BurgerIngriiednts: FC = () => {
 
   }, []);
 
-  const { ingridients } = useSelector((state: any) => state.ingridients);
-  const { selectedConstructorIngridients } = useSelector((state: any) => ({
+  const { ingridients } = useSelector((state) => state.ingridients);
+  const { selectedConstructorIngridients } = useSelector((state) => ({
     selectedConstructorIngridients: [...state.constructorItem.selectedConstructorIngridients, state.constructorItem.bunId],
 
   }), shallowEqual);
@@ -92,8 +93,8 @@ const BurgerIngriiednts: FC = () => {
             <p ref={tab.ref} className='text text_type_main-medium mb-6'>{tab.name}</p>
             <div className={`pl-4 pr-4 ${burgerIngridientsStyles.grid_container}`}>
               {
-                ingridients.filter((item: IIngredient) => item.type === tab.code)
-                  .map((i: IIngredient) =>
+                ingridients.filter((item) => item.type === tab.code)
+                  .map((i) =>
                     <BurgerIngridient key={i._id} onClick={onIngredientClick(i)} count={getCount(i._id)} ingridient={i} />
                   )
               }

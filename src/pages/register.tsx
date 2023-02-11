@@ -1,16 +1,18 @@
 import { useState, useRef, useCallback, useEffect, FC } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+
+import { useSelector, useDispatch } from '../services/hooks';
 import {
   register,
   getUser
 } from '../services/actions/current-user';
 import pagesStyles from './pages.module.css';
-import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import './pages.css';
+import { Button } from '../../src/components/ui-yandex/ui-yandex';
 
 const Register: FC = () => {
-  const dispatch = useDispatch<any>();
+  const dispatch = useDispatch();
   const [emailRegisterValue, setEmailRegisterValue] = useState<string>('');
   const inputEmailRegisterRef = useRef<HTMLInputElement>(null);
   const [nameRegisterValue, setNameRegisterValue] = useState<string>('');
@@ -19,7 +21,7 @@ const Register: FC = () => {
   const inputPasswordRegisterRef = useRef<HTMLInputElement>(null);
 
 
-  const { currentUser } = useSelector((state: any) => state.currentUser);
+  const { currentUser } = useSelector((state) => state.currentUser);
 
   const onSubmitRegister = useCallback((e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -70,7 +72,7 @@ const Register: FC = () => {
         <Button
           type="primary"
           size="medium"
-          htmlType='button'
+          htmlType='submit'
         >
           Зарегистрироваться
         </Button>
